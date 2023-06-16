@@ -9,7 +9,7 @@
     {
       "path": "pages/home/home",
       "style": {
-        "navigationBarTitleText": "首页"
+  
       }
     },
     {
@@ -33,7 +33,7 @@
   ],
   "globalStyle": {
     "navigationBarTextStyle": "white",
-    "navigationBarTitleText": "优品美妆",
+    "navigationBarTitleText": "优two美妆",
     "navigationBarBackgroundColor": "#22a7f2",
     "backgroundColor": "#22a7f2"
   },

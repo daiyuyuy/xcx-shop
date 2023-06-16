@@ -24,6 +24,27 @@
             <view class="floor-item" v-for="(item, index) in floorList" :key="index">
                 <!-- 楼层标题 -->
                 <image :src="item.floor_title.image_src" class="floor-title"></image>
+                <!-- 楼层图片区域 -->
+                <view class="floor-img-box">
+
+                    <!-- 左侧 1 个大图 -->
+                    <view class="left-img-box">
+                        <image :src="item.product_list[0].image_src"
+                            :style="{ width: item.product_list[0].image_width + 'rpx' }" mode="widthFix"
+                            @click="goToProductList(item.product_list[0])"></image>
+                    </view>
+
+                    <!-- 右侧 4 个小图 -->
+                    <view class="right-img-box">
+                        <block v-for="(product, idx) in item.product_list" :key="idx">
+                            <view class="right-img-item" v-if="idx !== 0">
+                                <image :src="product.image_src" :style="{ width: product.image_width + 'rpx' }"
+                                    @click="goToProductList(product)" mode="widthFix"></image>
+                            </view>
+                        </block>
+                    </view>
+
+                </view>
             </view>
         </view>
 
@@ -67,6 +88,7 @@ export default {
                 return this.$msg()
             }
             this.navList = message
+
         },
         async getFloorList() {
             const { meta, message } = await this.$http.get("/home/floordata")
@@ -74,6 +96,8 @@ export default {
                 return this.$msg()
             }
             this.floorList = message
+            console.log(this.floorList);
+
         },
         clickHandler(item) {
             // console.log(item);
@@ -82,6 +106,18 @@ export default {
                     url: "/pages/category/category"
                 })
             }
+        },
+        goToProductList(product) {
+            console.log(product);
+            //split方法通过分割返回一个数组
+            // const hello="哇哈哈啊哇哈哈哈啊哇哈哈哈哈?1"
+            // const arr=hello.split("?")  //["哇哈哈啊哇哈哈哈啊哇哈哈哈哈","1"] 
+            // console.log(arr[1]);   //1
+            const str = product.navigator_url.split("?")[1]
+            // console.log(str);
+            uni.navigateTo({
+                url: "/pages_sub1/product-list/product-list?" + str
+            })
         }
 
     }
@@ -109,5 +145,22 @@ export default {
         width: 128rpx;
         height: 140rpx;
     }
+}
+
+.floor-title {
+    display: flex;
+    width: 100%;
+    height: 60rpx;
+}
+
+.right-img-box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.floor-img-box {
+    display: flex;
+    padding-left: 10rpx;
 }
 </style>
