@@ -1,7 +1,9 @@
 <template>
     <view>
         <!-- 预留出的搜索区域 -->
-
+        <view>
+            <my-search @clickkkk="goToSearchPage"></my-search>
+        </view>
         <view class="scroll-view-container">
             <!-- 左侧的滚动区域 -->
             <scroll-view class="left-scroll-view" scroll-y :style="{ height: wh + 'px' }">
@@ -37,7 +39,11 @@
 </template>
   
 <script>
+import MySearch from '@/components/my-search.vue'
 export default {
+    components: {
+        MySearch
+    },
     data() {
         return {
 
@@ -61,7 +67,8 @@ export default {
 
         // 2. 从系统信息中获取窗口可用高度并赋值给 wh
         // 窗口的可用高度 = 屏幕高度 - navigationBar高度 - tabBar高度
-        this.wh = sysInfo.windowHeight;
+        // this.wh = sysInfo.windowHeight;
+        this.wh = sysInfo.windowHeight - 50;
         this.getCategoryList()
 
 
@@ -83,6 +90,11 @@ export default {
         gotoProductList(item3) {
             uni.navigateTo({
                 url: `/pages_sub1/product-list/product-list?cid=${item3.cat_id}`
+            })
+        },
+        goToSearchPage() {
+            uni.navigateTo({
+                url: "/pages_sub1/search/search"
             })
         }
     }
