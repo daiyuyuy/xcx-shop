@@ -12,12 +12,13 @@
             <!-- 标题区域 -->
             <view class="history-title">
                 <text>搜索历史</text>
-                <uni-icons type="trash" size="17"></uni-icons>
+                <uni-icons type="trash" size="17" @click="clearHistory"></uni-icons>
             </view>
 
             <!-- 历史列表 -->
             <view class="history-list">
-                <uni-tag v-for="(item, index) in historyList" :key="index" :text="item"></uni-tag>
+                <uni-tag v-for="(item, index) in historyList" :key="index" :text="item"
+                    @click="gotoProductList(item)"></uni-tag>
             </view>
 
         </view>
@@ -47,6 +48,15 @@ export default {
             //搜索历史记录
             historyList: []
         }
+    },
+    created() {
+        //一进入页面，获取本地存储的历史搜索
+        const keywords = uni.getStorageSync("keywords")
+
+       
+        //判断用户是否用过，防止空
+        this.historyList = keywords ? JSON.parse(keywords) : []
+
     },
 
     methods: {
@@ -94,9 +104,24 @@ export default {
             if (arr.length > 10) {
                 arr.pop()
             }
-           
+
             this.historyList = arr
 
+            //存入本地
+            uni.setStorageSync("keywords", JSON.stringify(arr))
+
+        },
+        clearHistory() {
+            this.historyList = []
+            uni.removeStorageSync("keywords")
+
+
+        },
+        gotoProductList(keywords) {
+            console.log(keywords);
+            uni.navigateTo({
+                url: `/pages_sub1/product-list/product-list?query=${keywords}`
+            })
         }
 
     }
