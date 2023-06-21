@@ -118,11 +118,12 @@ export default {
             })
         }
     },
-    filters: {
-        formatNum(value) {
-            return Number(value).toFixed(2)
-        }
-    }
+    //过滤器
+    // filters: {
+    //     formatNum(value) {
+    //         return Number(value).toFixed(2)
+    //     }
+    // }
 
 }
 </script>

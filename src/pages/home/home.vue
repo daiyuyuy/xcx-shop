@@ -60,9 +60,14 @@
 
 <script>
 import mySearch from '../../components/my-search.vue'
+import badge from "@/mixins/badge.js";
+
+
+
 
 export default {
     components: { mySearch },
+    mixins: [badge],
     data() {
         //在大型项目中 data 需要使用 return来返回数据，
         //不用return这种方式返回的数据在vue实例中是全局可见的，容易造成数据污染。

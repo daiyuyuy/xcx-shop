@@ -40,10 +40,13 @@
   
 <script>
 import MySearch from '@/components/my-search.vue'
+import badge from "@/mixins/badge.js";
+
 export default {
     components: {
         MySearch
     },
+    mixins: [badge],
     data() {
         return {
 
