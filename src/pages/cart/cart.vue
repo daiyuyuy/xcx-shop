@@ -1,5 +1,6 @@
 <template>
     <view>
+        <my-address></my-address>
         <!-- 购物车商品列表的标题区域 -->
         <view class="cart-title">
             <!-- 左侧的图标 -->
@@ -11,6 +12,7 @@
         <!-- 商品列表区域 -->
         <!-- 滑块，类似左右滑块删除 -->
         <uni-swipe-action>
+
             <block v-for="product in cartItems" :key="product.goods_id">
                 <!-- 右滑 -->
                 <uni-swipe-action-item :right-options="swipeOptions" @click="swipeActionClickHandler(product)">
@@ -29,7 +31,7 @@
                             <view class="goods-name">{{ product.goods_name }}</view>
                             <view class="goods-info-box">
                                 <!-- 商品价格 -->
-                                <view class="goods-price">￥{{ product.goods_price | tofixed }}</view>
+                                <view class="goods-price">￥{{ product.goods_price | formatNum }}</view>
 
                                 <!-- 商品数量 -->
                                 <uni-number-box :min="1" :value="product.goods_count"
@@ -47,9 +49,14 @@
 import { mapState } from 'vuex'
 // import { mapState, mapGetters } from 'vuex'
 import badge from "@/mixins/badge.js";
+import MyAddress from "@/components/my-address.vue"
 
 export default {
+
     mixins: [badge],
+    components: {
+        MyAddress
+    },
     data() {
         return {
             defaultImage:
