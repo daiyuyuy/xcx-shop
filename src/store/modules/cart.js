@@ -28,6 +28,31 @@ export default {
       });
       return result;
     },
+    // 统计购物车中已勾选商品的总数量
+    checkedTotal(state) {
+      let result = 0;
+
+      state.cartItems.forEach((item) => {
+        if (item.goods_state) {
+          result += item.goods_count;
+        }
+      });
+
+      return result;
+    },
+    //计算总价
+    // 已勾选的商品的总价
+    checkedAmount(state) {
+      let result = 0;
+
+      state.cartItems.forEach((item) => {
+        if (item.goods_state) {
+          result += item.goods_count * item.goods_price;
+        }
+      });
+
+      return result.toFixed(2);
+    },
   },
 
   //改数据状态
@@ -77,10 +102,21 @@ export default {
     removeGoods(state, item) {
       state.cartItems = state.cartItems.filter(
         (x) => x.goods_id !== item.goods_id
-      )
-  
-      uni.setStorageSync('cart', JSON.stringify(state.cartItems))
+      );
+
+      uni.setStorageSync("cart", JSON.stringify(state.cartItems));
     },
+    //商品全选
+    updateAllState(state, checked) {
+      // 遍历商品，更新所有的 goods_state
+      state.cartItems.forEach((x) => {
+        x.goods_state = checked;
+      });
+
+      // 持久化到本地存储
+      uni.setStorageSync("cart", JSON.stringify(state.cartItems));
+    },
+  
   },
 
   actions: {},

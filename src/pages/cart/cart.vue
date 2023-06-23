@@ -1,5 +1,6 @@
 <template>
-    <view>
+    <!-- 有两个根view标签时因为，他们两个属于互制关系，有你没他的那种 -->
+    <view class="cart-container" v-if="cartItems.length > 0">
         <my-address></my-address>
         <!-- 购物车商品列表的标题区域 -->
         <view class="cart-title">
@@ -43,6 +44,12 @@
                 </uni-swipe-action-item>
             </block>
         </uni-swipe-action>
+        <!-- 结算区域 -->
+        <my-checkout></my-checkout>
+    </view>
+    <!-- 购物车无商品时 -->
+    <view class="empty-cart" v-else>
+        <text class="tip-text">空空如也~</text>
     </view>
 </template>
 <script>
@@ -50,12 +57,14 @@ import { mapState } from 'vuex'
 // import { mapState, mapGetters } from 'vuex'
 import badge from "@/mixins/badge.js";
 import MyAddress from "@/components/my-address.vue"
+import MyCheckout from "@/components/my-checkout.vue";
 
 export default {
 
     mixins: [badge],
     components: {
-        MyAddress
+        MyAddress,
+        MyCheckout,
     },
     data() {
         return {
@@ -120,6 +129,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.cart-container {
+    padding-bottom: 100rpx;
+}
+
 .cart-title {
     height: 80rpx;
     display: flex;
@@ -173,6 +186,19 @@ export default {
             font-size: 32rpx;
             color: #c00000;
         }
+    }
+}
+
+.empty-cart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 300rpx;
+
+    .tip-text {
+        font-size: 24rpx;
+        color: gray;
+        margin-top: 30rpx;
     }
 }
 </style>

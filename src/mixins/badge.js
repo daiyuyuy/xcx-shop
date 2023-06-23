@@ -17,8 +17,16 @@ export default {
         } else {
           // 小于等于0则删除徽标
           uni.removeTabBarBadge({
+            // success:(res)=>{
+            //   console.log(res);
+            // },
+            // fail:(err)=>{
+            //   console.log("err"+err);
+            // },
             index: 2,
           });
+         
+          console.log(newVal);
         }
       },
       immediate: true,
