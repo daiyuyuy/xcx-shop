@@ -20,36 +20,39 @@ export default {
             uni.login({
                 provider: 'weixin', //使用微信登录
                 //     "onlyAuthorize": true,
-                success: () => {
+                success: (loginRes) => {
                     // console.log(code);
-                    uni.getUserInfo({
-                        // desc: "获取用户基本信息用于登录",
-                        success: (infoRes) => {
-                            console.log(infoRes.userInfo);
-
-                            const { userInfo } = infoRes
-
-                            // 将用户信息更新到 Vuex
-                            this.$store.commit("user/updateUserInfo", userInfo);
-
+                    
                             // 获取 Token
-                            this.getToken(infoRes);
-                        }
-                    })
+                            this.getToken(loginRes);
+                    // uni.getUserInfo({
+                    //     // desc: "获取用户基本信息用于登录",
+                    //     success: (infoRes) => {
+                    //         console.log(infoRes.userInfo);
+
+                    //         const { userInfo } = infoRes
+
+                    //         // 将用户信息更新到 Vuex
+                    //         this.$store.commit("user/updateUserInfo", userInfo);
+
+                    //         // 获取 Token
+                    //         this.getToken(infoRes);
+                    //     }
+                    // })
                 }
             })
         },
         async getToken(profile) {
-            const { code } = await uni.login({
-                provider: 'weixin',
-            })
+            // const { code } = await uni.login({
+            //     provider: 'weixin',
+            // })
             // if (err) {
             //     return this.$msg('获取用户登录凭证失败')
             // }
             // console.log(res);
             console.log(profile);
 
-            const { encryptedData, iv, rawData, signature } = profile
+            const {code, encryptedData, iv, rawData, signature } = profile
 
 
             const { message, meta } = await this.$http.post('/users/wxlogin', {
