@@ -12,7 +12,7 @@
 
             <view class="row1">
                 <view class="row1-left">
-                    <view class="username">收货人：{{ address.username }}<text></text></view>
+                    <view class="username">收货人：{{ address.userName }}<text></text></view>
                 </view>
                 <view class="row1-right">
                     <view class="phone">电话：{{ address.telNumber }}<text></text></view>
@@ -34,6 +34,7 @@
     </view>
 </template>
 <script>
+
 import { mapGetters, mapState } from 'vuex'
 export default {
     data() {
@@ -45,20 +46,29 @@ export default {
     methods: {
 
         // 选择收货地址
-        async chooseAddress() {
+         chooseAddress() {
             // 1. 调用小程序提供的 chooseAddress() 方法，即可使用选择收货地址的功能
             //    返回值是一个数组：
             //        - 第 1 项为错误对象
             //        - 第 2 项为成功之后的收货地址对象
-            const [err, res] = await uni.chooseAddress();
+            const res =  uni.chooseAddress(
+                {
+                    success: (res) => {
+                        // 为 data 里面的收货地址对象赋值
 
-            // 如果有错误, 提示用户
-            if (err) {
-                return this.$msg('选择收货地址失败')
-            }
-            // 为 data 里面的收货地址对象赋值
-         
-            this.$store.commit('user/setAddress', res)
+                        this.$store.commit('user/setAddress', res)
+
+                    },
+                    fail: () => {
+                        return this.$msg('选择收货地址失败')
+                    }
+                }
+            );
+            console.log(res);
+            // // 如果有错误, 提示用户
+            // if (res.errMsg) {
+            //     return this.$msg('选择收货地址失败')
+            // }
         }
 
     },
