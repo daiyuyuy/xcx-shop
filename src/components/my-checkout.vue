@@ -46,15 +46,43 @@ export default {
       // 2. 是否已选择收货地址
       if (!this.fullAddress) return this.$msg('请先选择收货地址')
       // 3. 是否已登录
-      if (!this.token) {
+      // if (!this.token) {
 
-        this.$msg('请先登录')
-        uni.switchTab({
-          url: '/pages/my/my'
-        })
+      //   this.$msg('请先登录')
+      //   uni.switchTab({
+      //     url: '/pages/my/my'
+      //   })
 
-      }
+      // }
+      // 4. 微信支付
+      this.payOrder()
     },
+    // 微信支付
+    async payOrder() {
+      // 1. 创建订单
+      // 1.1 发送请求
+      const { meta, message } = await this.$http.post("/my/orders/create", {
+        // 开发期间不填写真实的订单价格，写死订单总价为1分钱
+        order_price: 0.01,
+        // 收获地址
+        consignee_addr: this.fullAddress,
+        // 购物车中选中的商品
+        goods: this.$store.state.cart.cartItems.filter(x => x.goods_state).map(x => ({
+          goods_id: x.goods_id,
+          goods_number: x.goods_count,
+          goods_price: x.goods_price,
+        })),
+      });
+
+      if (meta.status !== 200) {
+        return this.$msg("创建订单失败！");
+      }
+      console.log(message);
+      console.log(meta);
+
+      // 1.2 得到 “订单编号”
+      const orderNumber = message.order_number;
+    }
   }
 };
 </script>

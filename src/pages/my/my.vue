@@ -2,10 +2,10 @@
     <view class="my-container">
 
         <!-- 没有 token 显示登录 -->
-        <my-login v-if="!token"></my-login>
+        <!-- <my-login v-if="!token"></my-login> -->
 
         <!-- 有 token 显示用户信息 -->
-        <my-userinfo v-else></my-userinfo>
+        <my-userinfo ></my-userinfo>
 
     </view>
 </template>

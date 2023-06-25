@@ -22,9 +22,9 @@ export default {
                 //     "onlyAuthorize": true,
                 success: (loginRes) => {
                     // console.log(code);
-                    
-                            // 获取 Token
-                            this.getToken(loginRes);
+
+                    // 获取 Token
+                    this.getToken(loginRes);
                     // uni.getUserInfo({
                     //     // desc: "获取用户基本信息用于登录",
                     //     success: (infoRes) => {
@@ -50,21 +50,22 @@ export default {
             //     return this.$msg('获取用户登录凭证失败')
             // }
             // console.log(res);
+            const { code } = profile
             console.log(profile);
 
-            const {code, encryptedData, iv, rawData, signature } = profile
 
 
             const { message, meta } = await this.$http.post('/users/wxlogin', {
                 code,
-                encryptedData,
-                iv,
-                rawData,
-                signature,
+                encryptedData: 'signature',
+                iv: 'iv',
+                rawData: ' rawData',
+                signature: 'signature',
             })
 
 
-            if (meta.status !== 200) return this.$msg()
+            // if (meta.status !== 200) return this.$msg()
+            console.log(meta);
             console.log(message)
 
             // 将 token 更新到 vuex 中

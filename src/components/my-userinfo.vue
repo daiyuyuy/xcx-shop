@@ -64,7 +64,8 @@
                     <text>联系客服</text>
                     <uni-icons type="arrowright" size="15"></uni-icons>
                 </view>
-                <view class="panel-list-item">
+                <view class="panel-list-item" >
+                    <!-- <view class="panel-list-item" @click="logout"></view> -->
                     <text>退出登录</text>
                     <uni-icons type="arrowright" size="15"></uni-icons>
                 </view>
@@ -79,6 +80,23 @@ export default {
     computed: {
         ...mapState('user', ['userInfo']),
     },
+    methods: {
+        async logout() {
+            // 提示对话框
+            const res = await uni.showModal({
+                title: "提示",
+                content: "确认退出登录吗？",
+            });
+            console.log();
+
+            if (res.confirm) {
+                // 用户确认了退出登录的操作，清空 vuex/storage 中的 token、userinfo 和 address
+                this.$store.commit("user/updateToken", "");
+                this.$store.commit("user/updateUserInfo", {});
+                this.$store.commit("user/updateAddress", {});
+            }
+        }
+    }
 }
 </script>
 
@@ -90,7 +108,7 @@ export default {
 
     .top-box {
         height: 400rpx;
-        background-color: #c00000;
+        background-color: #22a7f2;
         display: flex;
         flex-direction: column;
         align-items: center;
